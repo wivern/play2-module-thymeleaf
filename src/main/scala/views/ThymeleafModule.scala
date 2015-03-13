@@ -1,8 +1,8 @@
 package views
 
-import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
 import play.api.Play
+import play.api.mvc.Request
 
 /**
  * @author VKoulakov

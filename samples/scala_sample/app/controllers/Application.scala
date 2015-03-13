@@ -8,7 +8,7 @@ object Application extends Controller with ThymeleafModule {
 
   def index = Action {
 //    Ok(views.html.index("Your new application is ready."))
-    Ok(view("index"))
+    Ok(view("index", Map("home.welcome" -> "Hello, Play!"))).as("text/html")
   }
 
 }

@@ -8,7 +8,7 @@ lazy val play2_module_thymeleaf = (project in file(".")).enablePlugins()
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % "2.3.8",
-  "org.thymeleaf" % "thymeleaf" % "2.1.4.RELEASE"
+  "org.thymeleaf" % "thymeleaf" % "2.1.4.RELEASE" withSources()
 )
 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
