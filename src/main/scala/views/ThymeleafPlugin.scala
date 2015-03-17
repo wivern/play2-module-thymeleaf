@@ -1,6 +1,7 @@
 package views
 
 import org.thymeleaf.TemplateEngine
+import org.thymeleaf.messageresolver.PlayMessageResolver
 import org.thymeleaf.templateresolver.{PlayTemplateResolver, ServletContextTemplateResolver}
 import play.api.{Application, Plugin}
 
@@ -17,7 +18,9 @@ class ThymeleafPlugin(app: Application) extends Plugin {
     resolver.setPrefix("public/templates/")
     resolver.setSuffix(".html")
     resolver.setCacheTTLMs(3600000L)
+    resolver.setCharacterEncoding("UTF-8")
     templateEngine.setTemplateResolver(resolver)
+    templateEngine.setMessageResolver(new PlayMessageResolver)
   }
 
   override def onStop(): Unit = {
