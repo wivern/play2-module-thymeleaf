@@ -7,7 +7,7 @@ scalaVersion := "2.11.6"
 lazy val play2_module_thymeleaf = (project in file(".")).enablePlugins()
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play" %% "play" % "2.3.8",
+  "com.typesafe.play" %% "play" % "2.3.8" withSources(),
   "org.thymeleaf" % "thymeleaf" % "2.1.4.RELEASE" withSources()
 )
 

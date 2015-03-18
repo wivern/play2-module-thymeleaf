@@ -19,6 +19,7 @@ class ThymeleafPlugin(app: Application) extends Plugin {
     resolver.setSuffix(".html")
     resolver.setCacheTTLMs(3600000L)
     resolver.setCharacterEncoding("UTF-8")
+    resolver.setCacheable(false)
     templateEngine.setTemplateResolver(resolver)
     templateEngine.setMessageResolver(new PlayMessageResolver)
   }

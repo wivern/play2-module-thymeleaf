@@ -10,7 +10,7 @@ class PlayMessageResolver extends AbstractMessageResolver{
   override def resolveMessage(arguments: Arguments, key: String, messageParameters: Array[AnyRef]): MessageResolution = {
     checkInitialized()
     val locale = arguments.getContext.getLocale
-    val message = Option(Messages(key, messageParameters)(Lang("ru")))
+    val message = Option(Messages(key, messageParameters)(Lang(locale.toLanguageTag)))
     message match {
       case Some(value) => new MessageResolution(message.get)
       case None => null
