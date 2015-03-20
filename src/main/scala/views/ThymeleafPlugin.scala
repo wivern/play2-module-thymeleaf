@@ -2,6 +2,7 @@ package views
 
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.messageresolver.PlayMessageResolver
+import org.thymeleaf.play.PlayDialect
 import org.thymeleaf.templateresolver.{PlayTemplateResolver, ServletContextTemplateResolver}
 import play.api.{Application, Plugin}
 
@@ -22,6 +23,7 @@ class ThymeleafPlugin(app: Application) extends Plugin {
     resolver.setCacheable(false)
     templateEngine.setTemplateResolver(resolver)
     templateEngine.setMessageResolver(new PlayMessageResolver)
+    templateEngine.addDialect(new PlayDialect)
   }
 
   override def onStop(): Unit = {
