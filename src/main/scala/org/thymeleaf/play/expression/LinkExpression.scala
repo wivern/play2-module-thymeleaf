@@ -17,7 +17,8 @@ object LinkExpression{
   def parseLink(input : String) : LinkExpression = {
     input match {
       case LINK_PATTERN(c) => {
-        val baseExpr = Expression.parse(c)
+//        val baseExpr = Expression.parse(c)
+        null
       }
       case _ => null
     }
