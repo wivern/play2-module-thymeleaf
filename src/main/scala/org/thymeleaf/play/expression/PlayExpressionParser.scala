@@ -14,8 +14,8 @@ class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionPars
 
   def method : Parser[String] = "[\\w\\.]+".r ^^{ _.toString }
 
-  def link : Parser[IStandardExpression] = "^@\\w+".r ^^ {
-     case "@" ~ s => new LinkExpression(s.toString)
+  def link = "^@{" ~ method ~ "}" ^^ {
+     case "@{" ~ s ~ "}" => new LinkExpression(s.toString)
   }
 
   override def parseExpression(configuration: Configuration, processingContext: IProcessingContext, input: String): IStandardExpression = parseAll(link, input) match {
