@@ -12,8 +12,10 @@ import scala.util.parsing.combinator.JavaTokenParsers
  */
 class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionParser{
 
-  def link : Parser[IStandardExpression] = "@" ~ stringLiteral ^^ {
-    case (x~string) => LinkExpression(string)
+  def method : Parser[String] = "[\\w\\.]+".r ^^{ _.toString }
+
+  def link : Parser[IStandardExpression] = "^@\\w+".r ^^ {
+     case "@" ~ s => new LinkExpression(s.toString)
   }
 
   override def parseExpression(configuration: Configuration, processingContext: IProcessingContext, input: String): IStandardExpression = parseAll(link, input) match {

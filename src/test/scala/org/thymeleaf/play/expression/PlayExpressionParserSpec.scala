@@ -7,8 +7,12 @@ import org.scalatest.{FlatSpec, Matchers}
  */
 class PlayExpressionParserSpec extends FlatSpec with Matchers{
 
+  "The parser" should "parse a method" in {
+    assert(new PlayExpressionParser().parseExpression(null, null, "routes.Application.index") == "routes.Application.index")
+  }
+
   "The parser" should "parse a link" in {
-    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index")  == LinkExpression("routes.Application.index"))
+    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index1")  == LinkExpression("routes.Application.index"))
   }
 
 }

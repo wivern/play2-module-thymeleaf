@@ -16,17 +16,3 @@ case class LinkExpression (value: String) extends IStandardExpression{
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
 }
 
-object LinkExpression{
-
-  val LINK_PATTERN = "^\\s*\\@\\{(.+?)\\}\\s*$".r
-
-  def parseLink(input : String) : LinkExpression = {
-    input match {
-      case LINK_PATTERN(c) => {
-//        val baseExpr = Expression.parse(c)
-        null
-      }
-      case _ => null
-    }
-  }
-}
