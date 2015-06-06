@@ -13,11 +13,11 @@ import scala.util.parsing.combinator.JavaTokenParsers
  */
 class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionParser{
 
-  def boolean : Parser[IStandardExpression] = ("true" | "false") ^^ { s => new BooleanTokenExpression(s.toString) }
+  def boolean : Parser[IStandardExpression] = ("true" | "false") ^^ { s => new ThBooleanExpression( s.toLowerCase.equals("true")) }
 
-  def variable : Parser[IStandardExpression] = """[\\w\\.]+""".r ^^{ s => new VariableExpression( s.toString ) }
+//  def variable : Parser[IStandardExpression] = """[\\w\\.]+""".r ^^{ s => new VariableExpression( s.toString ) }
 
-//  def link : Parser[IStandardExpression] = """^@{""" ~ method ~ """}""".r ^^ { s => new LinkExpression(s.toString) }
+  def link : Parser[IStandardExpression] = "@\\s+".r ^^ { s => new LinkExpression(s.toString) }
 
   override def parseExpression(configuration: Configuration, processingContext: IProcessingContext, input: String): IStandardExpression = parseAll(boolean, input) match {
     case Success(result, _) => result
