@@ -2,17 +2,16 @@ package org.thymeleaf.play.expression
 
 import org.thymeleaf.Configuration
 import org.thymeleaf.context.IProcessingContext
-import org.thymeleaf.standard.expression._
+import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
 
 /**
- * @author VKoulakov
- * @since 20.03.2015 19:32
+ * Created by vitaly on 08.06.15.
  */
-case class LinkExpression (value: RouteExpression) extends IStandardExpression{
-  override def getStringRepresentation: String = "@" + value
+case class RouteExpression(route : String, params : List[String] = null) extends IStandardExpression{
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = ???
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
-}
 
+  override def getStringRepresentation: String = ???
+}
