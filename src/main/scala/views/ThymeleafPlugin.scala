@@ -1,5 +1,6 @@
 package views
 
+import com.google.inject.Inject
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.messageresolver.PlayMessageResolver
 import org.thymeleaf.play.PlayDialect
@@ -9,7 +10,7 @@ import play.api.{Application, Plugin}
 /**
  * Created by vitaly on 05.03.15.
  */
-class ThymeleafPlugin(app: Application) extends Plugin {
+class ThymeleafPlugin @Inject() (app: Application) extends Plugin {
 
   val templateEngine = new TemplateEngine
 
