@@ -5,11 +5,21 @@ import org.thymeleaf.TemplateEngine
 import org.thymeleaf.messageresolver.PlayMessageResolver
 import org.thymeleaf.play.PlayDialect
 import org.thymeleaf.templateresolver.{PlayTemplateResolver, ServletContextTemplateResolver}
-import play.api.{Application, Plugin}
+import play.api.{Configuration, Environment, Application, Plugin}
+import play.api.inject.{Binding, Module}
 
 /**
  * Created by vitaly on 05.03.15.
  */
+
+
+class ThymeleafEngineModule extends Module{
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
+
+  )
+}
+
+@deprecated
 class ThymeleafPlugin @Inject() (app: Application) extends Plugin {
 
   val templateEngine = new TemplateEngine
