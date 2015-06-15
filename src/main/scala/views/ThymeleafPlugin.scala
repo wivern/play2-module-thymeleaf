@@ -19,7 +19,6 @@ class ThymeleafEngineModule extends Module{
   )
 }
 
-@deprecated
 class ThymeleafPlugin @Inject() (app: Application) extends Plugin {
 
   val templateEngine = new TemplateEngine
