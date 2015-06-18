@@ -4,6 +4,8 @@ import com.google.inject.Inject
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.messageresolver.PlayMessageResolver
 import org.thymeleaf.play.PlayDialect
+import org.thymeleaf.play.expression.PlayExpressionParser
+import org.thymeleaf.standard.StandardDialect
 import org.thymeleaf.templateresolver.{PlayTemplateResolver, ServletContextTemplateResolver}
 import play.api.{Configuration, Environment, Application, Plugin}
 import play.api.inject.{Binding, Module}
@@ -33,7 +35,9 @@ class ThymeleafPlugin @Inject() (app: Application) extends Plugin {
     resolver.setCacheable(false)
     templateEngine.setTemplateResolver(resolver)
     templateEngine.setMessageResolver(new PlayMessageResolver)
-    templateEngine.addDialect(new PlayDialect)
+    val dialect = new StandardDialect
+    dialect.setExpressionParser(new PlayExpressionParser)
+    templateEngine.setDialect(dialect)
   }
 
   override def onStop(): Unit = {
