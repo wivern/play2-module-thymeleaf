@@ -14,13 +14,17 @@ class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionPars
 
   def boolean : Parser[ThBooleanExpression] = ("true" | "false") ^^ { s => new ThBooleanExpression( s.toLowerCase.equals("true")) }
 
-  def arguments : Parser[String] = "(" ~> (stringLiteral+) ~ (("," ~> stringLiteral)?) <~ ")" ^^ { s => s.toString()}
+  def arguments : Parser[List[IStandardExpression]] = repsep(expr, ",")
 //  def variable : Parser[IStandardExpression] = """[\\w\\.]+""".r ^^{ s => new VariableExpression( s.toString ) }
-  def route : Parser[RouteExpression] = "routes[\\.\\w]+".r ^^ { s => new RouteExpression(s.toString) }
+  def route : Parser[RouteExpression] = "routes[\\.\\w]+".r ~ opt("(" ~> arguments <~ ")") ^^ { s => new RouteExpression(s.toString, arguments) }
 
-  def link : Parser[IStandardExpression] = "@" ~ route ^^ { case "@" ~ routes => new LinkExpression(routes) }
+  def link : Parser[IStandardExpression] = "@" ~> route ^^ { routes => new LinkExpression(routes) }
 
-  def expression : Parser[IStandardExpression] = link | boolean
+  def string : Parser[IStandardExpression] = stringLiteral ^^ { s => new StringLiteralExpression(s.toString) }
+
+  def expr : Parser[IStandardExpression] = boolean | string
+
+  def expression : Parser[IStandardExpression] = link | expr
 
   override def parseExpression(configuration: Configuration, processingContext: IProcessingContext, input: String): IStandardExpression = parseAll(expression, input) match {
     case Success(result, _) => result

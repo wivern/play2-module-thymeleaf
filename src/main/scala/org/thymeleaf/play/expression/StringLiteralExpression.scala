@@ -5,13 +5,12 @@ import org.thymeleaf.context.IProcessingContext
 import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
 
 /**
- * Created by vitaly on 08.06.15.
+ * Created by vitaly on 23.06.15.
  */
-case class RouteExpression(route : String, params : List[IStandardExpression] = null) extends IStandardExpression{
-
+class StringLiteralExpression(value: String) extends IStandardExpression{
   override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = ???
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
 
-  override def getStringRepresentation: String = ???
+  override def getStringRepresentation: String = "\"" + value + "\""
 }

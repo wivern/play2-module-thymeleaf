@@ -29,6 +29,11 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
     assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index1")  == LinkExpression(new RouteExpression("routes.Application.index1")))
   }
 
+  "The parser" should "parse a link with parameters" in {
+    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Assets.at(\"public\\stylesheets\", \"main.css\")") == LinkExpression(RouteExpression("routes.Assets.at",
+      List(new StringLiteralExpression("public\\stylesheets"), new StringLiteralExpression("main.css")))))
+  }
+
   it should "throw IllegalArgumentException when bad route" in {
     intercept[IllegalArgumentException]{
       new PlayExpressionParser().parseExpression(null, null, "@routes")
