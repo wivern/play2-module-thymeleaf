@@ -16,7 +16,10 @@ class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionPars
 
   def stringList : Parser[IStandardExpression] = rep1sep(stringLiteral, ",") ^^ { list => ExpressionListExpression(list.map{new StringLiteralExpression(_)}) }
 //  def variable : Parser[IStandardExpression] = """[\\w\\.]+""".r ^^{ s => new VariableExpression( s.toString ) }
-  def route : Parser[RouteExpression] = "routes." ~ ident ~ opt("(" ~> stringList <~ ")") ^^ { s => new RouteExpression(s.toString) }
+  def route : Parser[RouteExpression] = "routes.[\\w+\\.]+".r ~ opt("(" ~> stringList <~ ")") ^^ {
+      case s ~ None => new RouteExpression(s.toString)
+      case s ~ a => new RouteExpression(s, a.toList)
+  }
 
   def link : Parser[IStandardExpression] = "@" ~> route ^^ { routes => new LinkExpression(routes) }
 
