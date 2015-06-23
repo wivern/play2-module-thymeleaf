@@ -34,6 +34,11 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
       List(new StringLiteralExpression("public\\stylesheets"), new StringLiteralExpression("main.css")))))
   }
 
+  it should "parse an list of expr" in {
+    val parsed = new PlayExpressionParser().parseExpression(null, null, "\"aa\",\"bb\"").asInstanceOf[ExpressionListExpression]
+    assert(parsed.list == ExpressionListExpression(List(new StringLiteralExpression("\"aa\""), new StringLiteralExpression("\"bb\""))).list)
+  }
+
   it should "throw IllegalArgumentException when bad route" in {
     intercept[IllegalArgumentException]{
       new PlayExpressionParser().parseExpression(null, null, "@routes")
