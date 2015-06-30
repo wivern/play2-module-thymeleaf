@@ -3,20 +3,11 @@ package org.thymeleaf.play.expression
 import org.scalatest.{FlatSpec, Matchers}
 import org.thymeleaf.standard.expression.BooleanTokenExpression
 
-/**
- * Created by vitaly on 16.05.15.
- */
 class PlayExpressionParserSpec extends FlatSpec with Matchers{
 
   "The parser" should "parse boolean" in {
     assert(new PlayExpressionParser().parseExpression(null, null, "true") == new ThBooleanExpression(true))
   }
-
-/*
-  "The parser" should "parse route" in {
-    assert(new PlayExpressionParser().parseExpression(null, null, "routes.Application.start") == new RouteExpression("routes.Application.start"))
-  }
-*/
 
 
 /*
@@ -25,18 +16,20 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
     assert(new PlayExpressionParser().parseExpression(null, null, "routes.Application.index") == "routes.Application.index")
   } */
 
+/*  "The parser" should "parse a parens" in {
+    val parsed = new PlayExpressionParser().parseExpression(null, null, "(\"aa\",\"bb\")").asInstanceOf[ExpressionListExpression]
+    assert(parsed.list == ExpressionListExpression(List(new StringLiteralExpression("\"aa\""), new StringLiteralExpression("\"bb\""))).list)
+  }*/
+
   "The parser" should "parse a link" in {
-    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index1")  == LinkExpression(new RouteExpression("routes.Application.index1")))
+    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index1")  == RouteExpression("@routes.Application.index1"))
   }
 
   "The parser" should "parse a link with parameters" in {
-    assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Assets.at(\"public\\stylesheets\", \"main.css\")") == LinkExpression(RouteExpression("routes.Assets.at",
-      List(new StringLiteralExpression("public\\stylesheets"), new StringLiteralExpression("main.css")))))
-  }
-
-  it should "parse an list of expr" in {
-    val parsed = new PlayExpressionParser().parseExpression(null, null, "\"aa\",\"bb\"").asInstanceOf[ExpressionListExpression]
-    assert(parsed.list == ExpressionListExpression(List(new StringLiteralExpression("\"aa\""), new StringLiteralExpression("\"bb\""))).list)
+    val expr = new PlayExpressionParser().parseExpression(null, null, "@routes.Assets.at(\"public/stylesheets\",\"main.css\")")
+    val expr2 = RouteExpression("@routes.Assets.at",
+      List(StringLiteralExpression("\"public/stylesheets\""), StringLiteralExpression("\"main.css\"")))
+    assert(expr == expr2)
   }
 
   it should "throw IllegalArgumentException when bad route" in {
