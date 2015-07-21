@@ -8,13 +8,13 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all"
-          href="/stylesheets/main.css" play:href="${#routes.Assets.at('/public/stylesheets', 'main.css')}" />
+          href="/stylesheets/main.css" play:href="${#controllers.Assets.at('/public/stylesheets', 'main.css')}" />
 </head>
 
 <body>
 
 <h2 text="#{home.welcome}">Welcome to our grocery store!</h2>
-<p th:text="@routes.Assets.at">text</p>
+<p th:text='@routes.Assets.at("main.css")'>text</p>
 
 </body>
 

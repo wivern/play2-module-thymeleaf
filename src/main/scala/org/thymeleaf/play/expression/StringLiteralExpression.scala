@@ -8,9 +8,9 @@ import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IS
  * Created by vitaly on 23.06.15.
  */
 case class StringLiteralExpression(value: String) extends IStandardExpression{
-  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = ???
+  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = value
 
-  override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
+  override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = value
 
   override def getStringRepresentation: String = "\"" + value + "\""
 }
