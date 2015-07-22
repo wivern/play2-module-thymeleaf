@@ -26,7 +26,7 @@ case class RouteExpression(route : String, params : List[IStandardExpression] = 
     if (params != null){ args = params.map( _.execute(configuration, processingContext) ).toArray }
 //    val methods = router.getClass.getMethods()
     methods.find( _.getName == methodName) match {
-      case Some(m) => m.invoke(assets, args)
+      case Some(m) => m.invoke(assets, args: _*)
       case None => throw new Exception(s"Failed to execute route ${route}")
     }
   }
