@@ -43,5 +43,11 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
     }
   }
 
+  it should "parse a variable" in {
+    val parser = new PlayExpressionParser
+    assert(parser.parseExpression(null, null, "${var1}") == VariableExpression("var1"))
+    assert(parser.parseExpression(null, null, "${var1.prop1}") == VariableExpression("var1.prop1"))
+  }
+
 
 }
