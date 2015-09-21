@@ -1,8 +1,14 @@
 name := "play2-module-thymeleaf"
 
+organization := "com.wivern"
+
 version := "1.0"
 
 scalaVersion := "2.11.6"
+
+publishMavenStyle := true
+
+crossPaths := false
 
 lazy val play2_module_thymeleaf = (project in file(".")).enablePlugins()
 
