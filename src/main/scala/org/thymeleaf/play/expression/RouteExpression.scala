@@ -20,6 +20,7 @@ package org.thymeleaf.play.expression
 import org.thymeleaf.Configuration
 import org.thymeleaf.context.IProcessingContext
 import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
+import play.api.Play
 import scala.reflect.runtime.{universe => ru}
 import play.core.Router
 
@@ -31,7 +32,8 @@ case class RouteExpression(route : String, params : List[IStandardExpression] = 
     val index = route.lastIndexOf(".")
     val clsName = "controllers.routes" //route.substring(1, index).replace("routes", "controllers") + "$"
     val methodName = route.substring(index+1)
-    val cls = Class.forName(clsName)
+    val cls = Play.current.classloader.loadClass(clsName)
+//    val cls = Class.forName(clsName)
 //    val router = cls.newInstance() //.asInstanceOf[Router.Routes]
     val assets = cls.getField("Assets").get(null)
     val methods = assets.getClass.getDeclaredMethods
