@@ -25,6 +25,9 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
     assert(new PlayExpressionParser().parseExpression(null, null, "true") == new ThBooleanExpression(true))
   }
 
+  "The parser" should "parse single quoted string" in {
+    assert(new PlayExpressionParser().parseExpression(null, null, "'string expression'") == new StringLiteralExpression("'string expression'"))
+  }
 
   "The parser" should "parse a link" in {
     assert(new PlayExpressionParser().parseExpression(null, null, "@routes.Application.index1")  == RouteExpression("@routes.Application.index1"))

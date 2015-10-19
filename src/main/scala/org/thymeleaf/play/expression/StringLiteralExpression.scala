@@ -24,7 +24,7 @@ import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IS
  * Created by vitaly on 23.06.15.
  */
 case class StringLiteralExpression(value: String) extends IStandardExpression{
-  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = value.replaceAll("\"", "")
+  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = value.replaceAll("[\"']", "")
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = value
 
