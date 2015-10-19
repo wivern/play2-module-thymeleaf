@@ -30,7 +30,9 @@ class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionPars
 
   def boolean : Parser[ThBooleanExpression] = ("true" | "false") ^^ { s => new ThBooleanExpression( s.toLowerCase.equals("true")) }
 
-  def string : Parser[IStandardExpression] = stringLiteral ^^ { s => StringLiteralExpression(s) }
+  def string : Parser[IStandardExpression] = (stringLiteral | singleQuotedLiteral) ^^ { s => StringLiteralExpression(s) }
+
+  def singleQuotedLiteral : Parser[String] = "((?<![\\])['])((?:.(?!(?<![\\])\1))*.?)\1".r
 
   def parens : Parser[List[IStandardExpression]] = "(" ~> rep1sep(expr, ",") <~ ")"  //^^ { v => ExpressionListExpression(v) }
 //  def variable : Parser[IStandardExpression] = """[\\w\\.]+""".r ^^{ s => new VariableExpression( s.toString ) }
