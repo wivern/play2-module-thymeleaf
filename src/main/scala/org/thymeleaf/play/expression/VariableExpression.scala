@@ -27,7 +27,29 @@ case class VariableExpression(variable: String, arguments : List[IStandardExpres
 
   def apply(variable : String) = new VariableExpression(variable, null)
 
-  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = ???
+  override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = {
+    val chain:Array[String] = variable.split("\\.")
+    val value = chain match {
+      case array:Array[String] if array.length > 0 => evaluate(processingContext, array{0})
+      case _ => processingContext.getLocalVariable(variable)
+    }
+    value match {
+      case v : AnyRef  => v
+      case None => ""
+    }
+  }
+
+  def evaluate(processingContext: IProcessingContext, variable: String) : AnyRef = {
+    if (processingContext.hasLocalVariable(variable)){
+      processingContext.getLocalVariable(variable)
+    } else {
+      val value = processingContext.getContext.getVariables.get(variable)
+      value match {
+        case v : AnyRef => v
+        case None => processingContext.getExpressionObjects.get (variable)
+      }
+    }
+  }
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
 

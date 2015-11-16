@@ -28,6 +28,7 @@ trait ThymeleafModule {
   def view(templateName: String, variables:Map[String, _] = Map()): String = {
     val templateEngine = Play.current.plugin[ThymeleafPlugin].map(_.templateEngine).orElse(sys.error("Thymeleaf plugin was not resolved"))
     val context = new Context()
+    variables.foreach{case(name, value) => context.setVariable(name, value)}
     templateEngine.get.process(templateName, context)
   }
 }

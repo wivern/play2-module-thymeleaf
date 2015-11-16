@@ -19,15 +19,14 @@ package org.thymeleaf.play.expression
 
 import org.thymeleaf.Configuration
 import org.thymeleaf.context.IProcessingContext
-import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
+import org.thymeleaf.standard.expression.{IStandardExpression, StandardExpressionExecutionContext}
 import play.api.Play
+
 import scala.reflect.runtime.{universe => ru}
-import play.core.Router
 
 case class RouteExpression(route : String, params : List[IStandardExpression] = null) extends IStandardExpression{
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = {
-    import java.lang.reflect.Method
     val mirror = ru.runtimeMirror(getClass.getClassLoader)
     val index = route.lastIndexOf(".")
     val clsName = "controllers.routes" //route.substring(1, index).replace("routes", "controllers") + "$"

@@ -17,7 +17,7 @@
 package org.thymeleaf.play.expression
 
 import org.scalatest.{FlatSpec, Matchers}
-import org.thymeleaf.standard.expression.BooleanTokenExpression
+import org.thymeleaf.context.{ProcessingContext, Context}
 
 class PlayExpressionParserSpec extends FlatSpec with Matchers{
 
@@ -50,6 +50,19 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
     val parser = new PlayExpressionParser
     assert(parser.parseExpression(null, null, "${var1}") == VariableExpression("var1"))
     assert(parser.parseExpression(null, null, "${var1.prop1}") == VariableExpression("var1.prop1"))
+  }
+
+  it should "proceed variable expression" in {
+    val parser = new PlayExpressionParser
+    val context = new Context()
+    context.setVariable("var1", "this is value")
+    context.setVariable("var2", 102)
+    val expression = parser.parseExpression(null, new ProcessingContext(context), "${var1}")
+    assert(expression.execute(null, new ProcessingContext(context)) == "this is value")
+
+    val pc2 = new ProcessingContext(context)
+    val expr2 = parser.parseExpression(null, pc2, "${var2}")
+    assert(expr2.execute(null, pc2) == 102)
   }
 
 
