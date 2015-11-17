@@ -16,6 +16,9 @@
 
 package org.thymeleaf.play.expression
 
+import java.text.SimpleDateFormat
+
+import org.apache.commons.lang3.time.{DateUtils, DateParser}
 import org.scalatest.{FlatSpec, Matchers}
 import org.thymeleaf.context.{ProcessingContext, Context}
 
@@ -55,14 +58,19 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
   it should "proceed variable expression" in {
     val parser = new PlayExpressionParser
     val context = new Context()
+    val date = DateUtils.parseDate("25.10.1975", "dd.MM.yyyy")
     context.setVariable("var1", "this is value")
     context.setVariable("var2", 102)
-    val expression = parser.parseExpression(null, new ProcessingContext(context), "${var1}")
-    assert(expression.execute(null, new ProcessingContext(context)) == "this is value")
+    context.setVariable("d3", date)
+    val processingContext = new ProcessingContext(context)
+    val expression = parser.parseExpression(null, processingContext, "${var1}")
+    assert(expression.execute(null, processingContext) == "this is value")
 
-    val pc2 = new ProcessingContext(context)
-    val expr2 = parser.parseExpression(null, pc2, "${var2}")
-    assert(expr2.execute(null, pc2) == 102)
+    val expr2 = parser.parseExpression(null, processingContext, "${var2}")
+    assert(expr2.execute(null, processingContext) == 102)
+
+    val expr3 = parser.parseExpression(null, processingContext, "${d3}")
+    assert(expr3.execute(null, processingContext) == date)
   }
 
 
