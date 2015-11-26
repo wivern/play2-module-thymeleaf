@@ -16,8 +16,13 @@
 
 package org.thymeleaf.play.expression
 
+import java.util.Collections
+
+import ognl.{OgnlRuntime, OgnlContext, Ognl}
 import org.thymeleaf.Configuration
 import org.thymeleaf.context.IProcessingContext
+import org.thymeleaf.play.converter.OgnlTypeConverter
+import org.thymeleaf.play.ognl.OgnlObjectPropertyAccessor
 import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
 
 /**
@@ -28,16 +33,28 @@ case class VariableExpression(variable: String, arguments : List[IStandardExpres
   def apply(variable : String) = new VariableExpression(variable, null)
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = {
-    val chain:Array[String] = variable.split("\\.")
-    val value = chain match {
-      case array:Array[String] if array.length > 0 => evaluate(processingContext, array{0})
-      case _ => processingContext.getLocalVariable(variable)
+    var expressionTree: AnyRef = null
+    expressionTree = Ognl.parseExpression(variable)
+
+    val evaluationRoot: AnyRef = processingContext.getExpressionSelectionEvaluationRoot
+    var contextVariables: java.util.Map[String, AnyRef] = processingContext.getExpressionObjects
+    val additionalContextVariables: java.util.Map[String, AnyRef] = computeAdditionalContextVariables(processingContext)
+    if (additionalContextVariables != null) {
+      contextVariables.putAll(additionalContextVariables)
     }
-    value match {
+
+    val context: OgnlContext = new OgnlContext(contextVariables)
+    context.setTypeConverter(new OgnlTypeConverter)
+    OgnlRuntime.setPropertyAccessor(classOf[Object], new OgnlObjectPropertyAccessor)
+    val result: AnyRef = Ognl.getValue(expressionTree, context, evaluationRoot)
+
+    result match {
       case v : AnyRef  => v
       case None => ""
     }
   }
+
+  protected def computeAdditionalContextVariables(processingContext: IProcessingContext): java.util.Map[String, AnyRef] = Collections.emptyMap()
 
   def evaluate(processingContext: IProcessingContext, variable: String) : AnyRef = {
     if (processingContext.hasLocalVariable(variable)){

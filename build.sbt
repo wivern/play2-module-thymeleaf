@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+libraryDependencies += "ognl" % "ognl" % "3.1.1"
 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
