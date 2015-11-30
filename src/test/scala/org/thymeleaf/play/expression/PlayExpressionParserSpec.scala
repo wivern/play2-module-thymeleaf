@@ -71,6 +71,9 @@ class PlayExpressionParserSpec extends FlatSpec with Matchers{
 
     val expr3 = parser.parseExpression(null, processingContext, "${d3}")
     assert(expr3.execute(null, processingContext) == date)
+
+    val expr4 = parser.parseExpression(null, processingContext, "${#dates.format(d3, 'dd/MM/yyyy')}")
+    assert(expr4.execute(null, processingContext) == "25/10/1975")
   }
 
 

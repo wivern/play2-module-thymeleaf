@@ -25,16 +25,13 @@ import org.thymeleaf.play.converter.OgnlTypeConverter
 import org.thymeleaf.play.ognl.OgnlObjectPropertyAccessor
 import org.thymeleaf.standard.expression.{StandardExpressionExecutionContext, IStandardExpression}
 
-/**
- * Created by vitaly on 30.07.15.
- */
-case class VariableExpression(variable: String, arguments : List[IStandardExpression] = null) extends IStandardExpression {
+case class VariableExpression(expr: String) extends IStandardExpression {
 
-  def apply(variable : String) = new VariableExpression(variable, null)
+  def apply(variable : String) = new VariableExpression(variable)
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext): AnyRef = {
     var expressionTree: AnyRef = null
-    expressionTree = Ognl.parseExpression(variable)
+    expressionTree = Ognl.parseExpression(expr)
 
     val evaluationRoot: AnyRef = processingContext.getExpressionSelectionEvaluationRoot
     var contextVariables: java.util.Map[String, AnyRef] = processingContext.getExpressionObjects
@@ -70,5 +67,5 @@ case class VariableExpression(variable: String, arguments : List[IStandardExpres
 
   override def execute(configuration: Configuration, processingContext: IProcessingContext, expContext: StandardExpressionExecutionContext): AnyRef = ???
 
-  override def getStringRepresentation: String = ???
+  override def getStringRepresentation: String = s"{$expr}"
 }

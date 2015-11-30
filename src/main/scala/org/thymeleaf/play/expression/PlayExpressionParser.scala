@@ -43,9 +43,8 @@ class PlayExpressionParser extends JavaTokenParsers with IStandardExpressionPars
 
   def expr : Parser[IStandardExpression] = boolean | string
 
-  def variable : Parser[IStandardExpression] = "\\s*\\$\\{".r ~> rep1sep(ident, ".") ~ opt(parens) <~ "\\}\\s*".r ^^ {
-    case list ~ None => VariableExpression( list.mkString(".") )
-    case list ~ args => VariableExpression( list.mkString("."), args.get )
+  def variable : Parser[IStandardExpression] = "\\s*\\$\\{".r ~> "((?!\\}).)+".r <~ "\\}\\s*".r ^^ {
+    case expr => VariableExpression( expr )
   }
 
   def expression : Parser[IStandardExpression] = route | variable | expr
