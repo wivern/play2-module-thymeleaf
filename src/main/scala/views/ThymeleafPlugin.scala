@@ -19,17 +19,11 @@ package views
 import com.google.inject.Inject
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.messageresolver.PlayMessageResolver
-import org.thymeleaf.play.PlayDialect
-import org.thymeleaf.play.expression.PlayExpressionParser
+import org.thymeleaf.play.expression.{PlayExpressionParser, PlayOgnlVariableExpressionEvaluator}
 import org.thymeleaf.standard.StandardDialect
-import org.thymeleaf.templateresolver.{PlayTemplateResolver, ServletContextTemplateResolver}
-import play.api.{Configuration, Environment, Application, Plugin}
+import org.thymeleaf.templateresolver.PlayTemplateResolver
 import play.api.inject.{Binding, Module}
-
-/**
- * Created by vitaly on 05.03.15.
- */
-
+import play.api.{Application, Configuration, Environment, Plugin}
 
 class ThymeleafEngineModule extends Module{
   override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
@@ -53,6 +47,7 @@ class ThymeleafPlugin @Inject() (app: Application) extends Plugin {
     templateEngine.setMessageResolver(new PlayMessageResolver)
     val dialect = new StandardDialect
     dialect.setExpressionParser(new PlayExpressionParser)
+    dialect.setVariableExpressionEvaluator(new PlayOgnlVariableExpressionEvaluator)
     templateEngine.setDialect(dialect)
   }
 
